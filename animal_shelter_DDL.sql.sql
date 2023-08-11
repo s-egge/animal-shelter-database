@@ -34,7 +34,7 @@ DROP TABLE IF EXISTS Prescriptions;
 CREATE TABLE `Prescriptions` (
     `animalID` int NOT NULL,
     `name` varchar(20),
-    `frequency` varchar(30),
+    `frequency` varchar(100),
     PRIMARY KEY (`animalID`, `name`),
     FOREIGN KEY (`animalID`) REFERENCES Animals(`animalID`) ON DELETE CASCADE
 );

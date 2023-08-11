@@ -581,7 +581,5 @@ function updateAdoptable(animalID, adoptable, restrictions) {
 /***********************************************************/
 
 app.listen(port, function() {
-    var address = "http://flip1.engr.oregonstate.edu:" + port + "/"
     console.log("Listening on port", port)
-    console.log("Accesible at: " + address)
 })
