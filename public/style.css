@@ -1,0 +1,408 @@
+:root {
+    --main-color: #172A3A;
+    --navbar-btn-highlight: #2F5575;
+    --main-font: "Poppins", sans-serif;
+}
+
+*{
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    display: flex;
+    background-color: #e7e7e7;
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+}
+
+/** Sidebar **/
+
+#navbar {
+    position: sticky;
+    top: 0;
+    align-self: flex-start;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--main-color);
+    height: 100vh;
+    width: 240px;
+}
+
+#logo-wrapper {
+    display: flex;
+}
+
+#logo-btn {
+    all: unset;
+    cursor: pointer;
+    margin-left: 15px;
+    text-align: center;
+    color: white;
+    font-size: 10px;
+}
+
+#logo {
+    width: 50px;
+    height: 50px;
+    align-self: center;
+    border-radius: 15px;
+    padding: 5px;
+}
+
+#logo-btn:hover {
+    transform: scale(108%);
+    border-radius: 15px;
+}
+
+#site-name {
+    align-self: center;
+    text-align: center;
+    padding: 10px;
+    font-family: "Poppins", Arial, sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    color: white;
+    width: 75%;
+}
+
+#nav-links {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    padding: 5px;
+    padding-top: 20px;
+
+    border-top: 1px solid white;
+    flex-grow: 1;
+    align-self: stretch;
+    gap: 15px;
+}
+
+#nav-links > button {
+    background: var(--main-color);
+    align-self: center;
+    width: 90%;
+    height: 10%;
+    border: none;
+    border-radius: 10px;
+    font-family: "Poppins", sans-serif;
+    color: white;
+    font-weight: 500;
+    font-size: 18px;
+}
+
+#nav-links > button:hover {
+    background-color: var(--navbar-btn-highlight);
+    cursor: pointer;
+}
+
+#nav-links > .active {
+    background-color: var(--navbar-btn-highlight);
+}
+
+/** Page content **/
+
+#page-content {
+    width: 95vw;
+    padding-top: 20px;
+}
+
+#index-page-content-wrapper > h1 {
+    border-bottom: 1px solid rgb(181, 181, 181);
+    color: var(--main-color);
+    text-align: center;
+    margin: 20px;
+    margin-left: 50px;
+    margin-bottom: 100px;
+}
+
+#index-page-content-wrapper > p {
+    border-top: 1px solid rgb(181, 181, 181);
+    margin: 10px;
+    padding: 10px;
+}
+
+.index-page-content-img {
+    margin: 5px;
+    border: 3px solid black;
+    width: 45%;
+}
+
+.two-img-wrapper, .single-img {
+    margin-left: 50px;
+}
+
+#index-page-content-wrapper > p.no-border {
+    border-top: none;
+}
+
+/******* table *********/
+
+table{
+    margin: 20px;
+    border-collapse: collapse;
+    border: 3px solid black;
+    background-color: var(--main-color);
+    width: 75%;
+}
+
+table .table-header{
+    border: 3px solid black;
+    color: white;
+}
+
+table .table-header > th{
+    border: 3px solid black;
+    font-size: 20px;
+    font-weight: 400;
+}
+
+table .table-entry{
+    background-color: white;
+    border: 1px solid black;
+    font-size: 16px;
+}
+
+table .table-entry > th {
+    border: 1px solid black;
+    font-weight: 400;
+}
+
+tr.table-entry:nth-child(odd) {
+    background-color: #e3e2e2;
+}
+
+table .table-entry:hover {
+    background-color: yellow;
+    cursor: pointer;
+}
+
+table .table-entry:hover {
+    background-color: var(--navbar-btn-highlight);
+    color: white;
+    cursor: pointer;
+}
+
+
+/*** dropdown ***/
+.dropdown-wrapper {
+    width: 120px;
+    margin-left: 20px;
+    padding: 5px 2px;
+}
+
+.dropdown-wrapper:hover {
+    cursor: pointer;
+}
+
+select {
+    border: 2px solid black;
+}
+
+/** add new button **/
+.add-btn {
+    width: fit-content;
+    background-color: var(--main-color);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    margin-left: 5px;
+    padding: 3px 10px;
+}
+
+.add-btn:hover{
+    transform: scale(110%);
+    background-color: var(--navbar-btn-highlight);
+    cursor: pointer;
+}
+
+
+/*** modals ***/
+
+
+.hidden{
+    display: none !important;
+}
+
+#modal-backdrop{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    background-color: rgba(0, 0, 0, 0.70);
+}
+
+.modal-skeleton{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
+}
+
+.modal-contents{
+    width: 40vw;
+    height: 60vh;
+    background-color: white;
+    border-radius: 5%;
+    padding: 10px;
+    margin: 40px auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.modal-body{
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    padding-bottom: 10px;
+    font-size: 14px;
+}
+
+/* delete modal */
+#delete-modal-backdrop{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 3;
+    background-color: rgba(0, 0, 0, 0.70);
+}
+
+#delete-modal {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    position: absolute;
+    top: 30%;
+    left: 40%;
+    z-index: 4;
+    width: 20vw;
+    height: 20vh;
+    background-color: white;
+    font-weight: bold;
+    border: 2px solid var(--main-color);
+    border-radius: 20px;
+    padding: 10px;
+    box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+#delete-modal > .modal-btn-wrapper {
+    flex-grow: 1;
+}
+
+/* animal modals */
+
+#animal-info, #animal-input{
+    width: 40%;
+}
+
+#animal-input input {
+    width: 80%;
+}
+
+/* animal picture in modal */
+
+.animal-img-adoption-wrapper {
+    width: 60%;
+}
+.animal-modal-img {
+    width: 60%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 20px;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    overflow: hidden;
+    border-radius: 15px;
+    box-shadow: 5px 5px 5px gray;
+}
+
+/*  All info modals w/o pictures will take up the full space */
+#patron-info, #patron-input{
+    width: 100%;
+}
+
+#phone-input-wrapper {
+    max-width: 60%;
+    display: flex;
+}
+
+#phone1, #phone2 {
+    max-width: 30%;
+    margin-right: 10px;
+}
+
+/** modal body **/
+
+.modal-contents .label, label {
+    font-weight: bold;
+    font-size: 16px;
+    padding: 0px;
+    margin: 0px;
+}
+
+label {
+    display: block;
+}
+
+.modal-contents .data, .modal-contents input, .modal-contents .dropdown-wrapper {
+    margin-left: 15px;
+    margin-bottom: 10px;
+}
+
+.modal-contents .dropdown-wrapper {
+    border: 1px solid black;
+}
+
+.modal-contents input {
+    width: 90%;
+    padding: 2px;
+}
+
+::placeholder {
+    color: black;
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+}
+
+/** modal button **/
+
+.modal-btn-wrapper {
+    align-self: flex-end;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    height: 20%;
+}
+
+.modal-btn{
+    width: fit-content;
+    height: fit-content;
+    padding: 10px 20px;
+    background-color: var(--main-color);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-size: 18px;
+}
+
+.modal-btn:hover{
+    transform: scale(110%);
+    background-color: var(--navbar-btn-highlight);
+    cursor: pointer;
+}
