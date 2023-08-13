@@ -4,9 +4,11 @@ var infoModal = document.getElementById("info-modal");
 var table = document.getElementsByTagName("table")[0];
 var vaccineInfo = document.getElementById("patron-info");
 var addVaccNameDropdown = document.getElementById("name-dropdown");
+var vaccineDD = document.getElementById("vaccine-dropdown")
 
 var tempData = {
     animalID: 0,
+    vaccineID: 0,
     vaccineName: "",
     dateGiven: "",
     dateExpires: ""
@@ -34,16 +36,18 @@ dropdownMenu.addEventListener('change', function() {
 
 /* Takes info from row selected and creates info modal body */
 function loadVaccineModalInfo(vaccineRowInfo) {
-    //update modal based on patron info
+    //update modal based on info
     var rowData = vaccineRowInfo.getElementsByTagName("th");
 
     var aID = rowData[0].id;
+    var vID = rowData[1].id;
     var vName = rowData[1].firstChild.data;
     var dateGiven = formatDate(rowData[2].firstChild.data);
     var dateExpires = formatDate(rowData[3].firstChild.data);
 
     //store the aID and vName in case user wants to update
     tempData.animalID = aID
+    tempData.vaccineID = vID
     tempData.vaccineName = vName
     tempData.dateGiven = dateGiven
     tempData.dateExpires = dateExpires
@@ -51,7 +55,7 @@ function loadVaccineModalInfo(vaccineRowInfo) {
     //update animal info in modal
     document.getElementsByClassName("data id")[0].innerText = aID;
     document.getElementById("name-dropdown").value = aID;
-    document.getElementById("vaccine-dropdown").value = vName;
+    document.getElementById("vaccine-dropdown").value = vID;
     document.getElementById("date-given").value = dateGiven;
     document.getElementById("date-expires").value = dateExpires;
 
@@ -153,8 +157,9 @@ addVaccNameDropdown.addEventListener('change', function() {
     return data otherwise */
 function getVaccineAdministeredInput() {
     //get animal data
-    var aID = document.getElementById("name-dropdown").value
-    var vaccName = document.getElementById("vaccine-dropdown").value
+    var aID = addVaccNameDropdown.value
+    var vaccName = vaccineDD.options[vaccineDD.selectedIndex].text
+    var vaccID = vaccineDD.value
     var dateGiven = document.getElementById("date-given").value
     var dateExpires = document.getElementById("date-expires").value
 
@@ -165,6 +170,7 @@ function getVaccineAdministeredInput() {
     let data = {
         animalID: aID,
         vaccineName: vaccName,
+        vaccineID: vaccID,
         dateGiven: dateGiven,
         dateExpires: dateExpires
     }
@@ -217,7 +223,7 @@ deleteBtn.addEventListener('click', function(even) {
 confirmDeleteBtn.addEventListener('click', function(){
     //send query for deletion
     var aID = document.getElementById("name-dropdown").value;
-    var vName = document.getElementById("vaccine-dropdown").value;
+    var vName = vaccineDD.options[vaccineDD.selectedIndex].text;
 
     let data = {
         animalID: aID, 

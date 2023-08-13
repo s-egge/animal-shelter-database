@@ -102,7 +102,7 @@ app.get('/prescriptions', function(req, res) {
 app.get('/fosters_and_adoptions', function(req, res) {
 
     // define our query
-    query1 = `SELECT animalID, animalName, patronID, firstName, lastName, fosteredOrAdopted, DATE_FORMAT(date, '%b %e, %Y') as date FROM Animals NATURAL JOIN FostersAndAdoptions NATURAL JOIN Patrons;`
+    query1 = `SELECT animalID, animalName, p.patronID, p.firstName, p.lastName, fosteredOrAdopted, DATE_FORMAT(date, '%b %e, %Y') as date FROM Animals NATURAL JOIN FostersAndAdoptions fa LEFT JOIN Patrons p on fa.patronID = p.patronID;`
     query2 = 'SELECT animalID, animalName FROM Animals;';
     query3 = 'SELECT firstName, lastName, patronID FROM Patrons;';
 
@@ -156,7 +156,7 @@ app.get('/vaccines/:species/:table', function(req, res) {
 
     // define our query
     if (table == "VaccinesAdministered")
-        query = `SELECT animalID, species, animalName, vaccineName, DATE_FORMAT(dateGiven, '%b %e, %Y') as dateGiven, DATE_FORMAT(dateExpires, '%b %e, %Y') as dateExpires, pictureURL FROM Animals NATURAL JOIN VaccinesAdministered WHERE species = ?;`;
+        query = `SELECT animalID, animalName, vaccineName, vaccineID, DATE_FORMAT(dateGiven, '%b %e, %Y') as dateGiven, DATE_FORMAT(dateExpires, '%b %e, %Y') as dateExpires, pictureURL FROM Animals NATURAL JOIN VaccinesAdministered WHERE species = ?;`;
     
     else if (table == "Prescriptions")
         query = `SELECT * FROM Prescriptions NATURAL JOIN Animals WHERE species = ?`
@@ -175,7 +175,7 @@ app.get('/vaccines/:species/:table', function(req, res) {
 app.get('/vaccines_administered', function(req, res) {
 
     // define our query
-    query1 = `SELECT animalID, animalName, vaccineName, DATE_FORMAT(dateGiven, '%b %e, %Y') as dateGiven, DATE_FORMAT(dateExpires, '%b %e, %Y') as dateExpires, pictureURL FROM Animals NATURAL JOIN VaccinesAdministered;`
+    query1 = `SELECT animalID, animalName, vaccineName, vaccineID, DATE_FORMAT(dateGiven, '%b %e, %Y') as dateGiven, DATE_FORMAT(dateExpires, '%b %e, %Y') as dateExpires, pictureURL FROM Animals NATURAL JOIN VaccinesAdministered;`
     query2 = 'SELECT * FROM Vaccines;';
     query3 = 'SELECT animalID, animalName FROM Animals';
 
@@ -309,7 +309,7 @@ function getAddQuery(table) {
         case "Patrons":
             return `INSERT INTO Patrons(firstName, lastName, phoneNumber, address) VALUES (?, ?, ?, ?);`
         case "VaccinesAdministered":
-            return `INSERT INTO VaccinesAdministered(animalID, vaccineName, dateGiven, dateExpires) VALUES (?, ?, ?, ?);`
+            return `INSERT INTO VaccinesAdministered(animalID, vaccineID, vaccineName, dateGiven, dateExpires) VALUES (?, ?, ?, ?, ?);`
         case "Vaccines":
             return `INSERT INTO Vaccines(name, doses, species) VALUES(?, ?, ?);`
         case "Prescriptions":
@@ -328,7 +328,7 @@ function getAddParameters(table, data) {
         case "Patrons":
           return [data['firstName'], data['lastName'], data['phoneNumber'], data['address']];
         case "VaccinesAdministered":
-            return [data['animalID'], data['vaccineName'], data['dateGiven'], data['dateExpires']];
+            return [data['animalID'], data['vaccineID'], data['vaccineName'], data['dateGiven'], data['dateExpires']];
         case "Vaccines":
             return [data['name'], data['doses'], data['species']]
             case "Prescriptions":
@@ -581,5 +581,7 @@ function updateAdoptable(animalID, adoptable, restrictions) {
 /***********************************************************/
 
 app.listen(port, function() {
+    var address = "http://flip1.engr.oregonstate.edu:" + port + "/"
     console.log("Listening on port", port)
+    console.log("Accesible at: " + address)
 })

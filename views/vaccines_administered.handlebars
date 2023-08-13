@@ -33,7 +33,7 @@
                     <p class="label vaccine">Vaccine</p>
                     <select id="vaccine-dropdown" class="dropdown-wrapper">
                         {{#each vaccines}}
-                            <option>{{this.name}}</option>
+                            <option value="{{this.vaccineID}}">{{this.name}}</option>
                         {{/each}}
                     </select>
                 <label for="date-given">Date Given</label>
