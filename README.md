@@ -9,7 +9,6 @@ A webpage for a fictional animal shelter to interact with relevant data.
 3. [Features](#website-features)
 4. [Technologies Used](#technologies-used)
 5. [Setup Instructions](#setup-instructions)
-6. [Hosting](#hosting)
 
 ## Introduction
 
@@ -25,6 +24,10 @@ This webpage was created to practice implementing MySQL. It's a website for a fi
 ## Website Features
 
 - **Animal Management**: Store and manage information about animals, including their name, species, breed, age, gender, and adoption/foster status.
+
+![view_more_info](https://github.com/s-egge/animal-shelter-database/assets/102624422/dcac97a0-55a9-4bb5-9f97-3c6e5c25b83d)
+![add_modal](https://github.com/s-egge/animal-shelter-database/assets/102624422/eb967742-9277-47ba-97ad-e36ecaeab381)
+
 
 - **Patrons**: Keep track of fosters and adopters and their contact information.
 
@@ -50,12 +53,12 @@ This webpage was created to practice implementing MySQL. It's a website for a fi
 
 ## Setup Instructions
 
-To set up the website locally, follow these steps:
+To set up the website locally, you can use either MySQL or SQLite, follow these steps:
 
 1. Clone the repository: `git clone https://github.com/s-egge/animal-shelter-database.git`
 2. Navigate to the project directory: `cd <project-directory>`
 3. Install the required dependencies: `npm install`
-4. Configure the MySQL database connection in the `db-connector.js` file.
-5. Set up the database schema using the provided SQL script: `animal_shelter_DDL.sql`.
-6. Start the server: `npm start`
+4. If using MySQL, configure the MySQL database connection in the `mysql-db-connector.js` file.
+5. If using MySQL, set up the database schema using the provided SQL script: `animal_shelter_DDL.sql` 
+6. Start the server: `npm run start-mysql` or `npm run start-sqlite`
 7. Access the website locally: Open your web browser and go to `http://localhost:27469`
