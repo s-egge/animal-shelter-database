@@ -59,7 +59,3 @@ To set up the website locally, follow these steps:
 5. Set up the database schema using the provided SQL script: `animal_shelter_DDL.sql`.
 6. Start the server: `npm start`
 7. Access the website locally: Open your web browser and go to `http://localhost:27469`
-
-## Hosting
-
-The webpage is currently hosted on Oracle Cloud via their free tier. It can be accessed [here](http://146.235.204.101:27469/).
