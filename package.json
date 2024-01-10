@@ -5,7 +5,8 @@
   "main": "test_app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js",
+    "start-sqlite": "node sqlite-server.js",
+    "start-mysql": "node mysql-server.js",
     "dev": "nodemon server.js",
     "b-animals": "handlebars views/partials/animalTableRow.handlebars -f public/animalTableRow.js",
     "b-patrons": "handlebars views/partials/patronTableRow.handlebars -f public/patronTableRow.js",
@@ -26,6 +27,7 @@
     "mysql": "^2.18.1",
     "node": "^17.7.2",
     "nodemon": "^2.0.16",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "sqlite3": "^5.1.7"
   }
 }

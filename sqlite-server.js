@@ -6,7 +6,7 @@ var app = express()
 var port = process.env.PORT || 27469
 
 // set up Database
-var db = require('./db-connector')
+var db = require('./sqlite-db-connector')
 const { debugPort } = require('process')
 
 //set up handlebar usage
@@ -39,7 +39,7 @@ app.get('/animals/:animalID', function(req, res) {
     query = 'SELECT * FROM Animals WHERE animalID = ? ;';
 
     //send query
-    db.pool.query(query, animalID, function (err, results, fields){
+    db.db.all(query, animalID, function (err, results, fields){
         emptyResponse = {
             animalID: "N/A",
         }
@@ -62,7 +62,7 @@ app.get('/animals', function(req, res) {
     query = 'SELECT * FROM Animals;';
 
     //send query
-    db.pool.query(query, function (err, results, fields){
+    db.db.all(query, function (err, results, fields){
 
         //get results from query and render page w/queried info
         res.status(200).render('animals', {
@@ -81,12 +81,12 @@ app.get('/prescriptions', function(req, res) {
     query2 = 'SELECT animalID, animalName FROM Animals;';
 
     //send query
-    db.pool.query(query1, function(err, results, fields){
+    db.db.all(query1, function(err, results, fields){
 
         //save prescription results from query
         let prescriptions = results;
 
-        db.pool.query(query2, function(err, results, fields){
+        db.db.all(query2, function(err, results, fields){
             //get results from query and render page w/queried info
             res.status(200).render('prescriptions', {
                 anotherJS: true,
@@ -106,17 +106,17 @@ app.get('/fosters_and_adoptions', function(req, res) {
     query2 = 'SELECT animalID, animalName FROM Animals;';
     query3 = 'SELECT firstName, lastName, patronID FROM Patrons;';
 
-    db.pool.query(query1, function(err, results, fields){
+    db.db.all(query1, function(err, results, fields){
 
         //save foster/adoption results from query
         let faa = results;
 
-        db.pool.query(query2, function(err, results, fields){
+        db.db.all(query2, function(err, results, fields){
 
             //save animal info from results
             let animals = results;
 
-            db.pool.query(query3, function(err, results, fields) {
+            db.db.all(query3, function(err, results, fields) {
                 //get results from query and render page w/queried info
                 res.status(200).render('fosters_and_adoptions', {
                     anotherJS: true,
@@ -138,7 +138,7 @@ app.get('/vaccines', function(req, res) {
     query = 'SELECT * FROM Vaccines;';
 
     //send query
-    db.pool.query(query, function (err, results, fields){
+    db.db.all(query, function (err, results, fields){
 
         //get results from query and render page w/queried info
         res.status(200).render('vaccines', {
@@ -165,7 +165,7 @@ app.get('/vaccines/:species/:table', function(req, res) {
         query = `SELECT * FROM Vaccines WHERE species = ?`
 
     //send query
-    db.pool.query(query, species, function(err, results, fields){
+    db.db.all(query, species, function(err, results, fields){
         res.status(200).send(results)
     })    
 })
@@ -179,17 +179,17 @@ app.get('/vaccines_administered', function(req, res) {
     query2 = 'SELECT * FROM Vaccines;';
     query3 = 'SELECT animalID, animalName FROM Animals';
 
-    db.pool.query(query1, function(err, results, fields){
+    db.db.all(query1, function(err, results, fields){
 
         //save prescription results from query
         let vaccinesAdminstered = results;
 
-        db.pool.query(query2, function(err, results, fields) {
+        db.db.all(query2, function(err, results, fields) {
 
             //save vaccine results from query
             let vaccines = results;
 
-            db.pool.query(query3, function(err, results, fields){
+            db.db.all(query3, function(err, results, fields){
                 //get results from query and render page w/queried info
                 res.status(200).render('vaccines_administered', {
                     anotherJS: true,
@@ -210,7 +210,7 @@ app.get('/patrons', function(req, res) {
     query = 'SELECT * FROM Patrons;';
 
     //send query
-    db.pool.query(query, function (err, results, fields){
+    db.db.all(query, function (err, results, fields){
 
         //get results from query and render page w/queried info
         res.status(200).render('patrons', {
@@ -229,7 +229,7 @@ app.get('/adoptable/:animalID', function(req, res) {
     query = 'SELECT restrictions FROM Adoptable WHERE animalID = ' + animalID + ';';
 
     //send query
-    db.pool.query(query, function (err, results, fields){
+    db.db.all(query, function (err, results, fields){
         emptyResponse = {
             restrictions: "N/A",
         }
@@ -251,7 +251,7 @@ app.get('/adoptable', function(req, res) {
     query = 'SELECT * FROM Animals RIGHT JOIN Adoptable ON Animals.animalID = Adoptable.animalID;'
 
     //send query
-    db.pool.query(query, function (err, results, fields){
+    db.db.all(query, function (err, results, fields){
         //get results from query and render page w/queried info
         res.status(200).send(results)
     })
@@ -272,7 +272,7 @@ app.get('/adopted/:table', function(req, res) {
         query = `SELECT * FROM Patrons WHERE patronID IN (SELECT patronID FROM FostersAndAdoptions WHERE fosteredOrAdopted = "A");`
     
     //send query
-    db.pool.query(query, function (err, results, fields){
+    db.db.all(query, function (err, results, fields){
         //get results from query and render page w/queried info
         res.status(200).send(results)
     })
@@ -293,7 +293,7 @@ app.get('/fostered/:table', function(req, res) {
         query = `SELECT * FROM Patrons WHERE patronID IN (SELECT patronID FROM FostersAndAdoptions WHERE fosteredOrAdopted = "F");`
     
     //send query
-    db.pool.query(query, function (err, results, fields){
+    db.db.all(query, function (err, results, fields){
         //get results from query and render page w/queried info
         res.status(200).send(results)
     })
@@ -424,7 +424,7 @@ app.post('/add/:table', function (req, res) {
     parameters = getAddParameters(table, data);
 
     //send query to add animal
-    db.pool.query(query, parameters, function (error, results, fields) {
+    db.db.run(query, parameters, function (error, results, fields) {
 
         //check for error
         if (error) {
@@ -454,7 +454,7 @@ app.post('/update/:table', function (req, res) {
     parameters = getUpdateParameters(table, data);
 
     //send query to add animal
-    db.pool.query(query, parameters, function (error, results, fields) {
+    db.db.run(query, parameters, function (error, results, fields) {
 
         //check for error
         if (error) {
@@ -480,7 +480,7 @@ app.post('/update-adoptable', function (req, res) {
     query = `SELECT * FROM Adoptable WHERE animalID = ?;`
 
     //send query
-    db.pool.query(query, data.animalID, function (error, results, fields) {
+    db.db.all(query, data.animalID, function (error, results, fields) {
         //check for error
         if (error) {
             console.log(error)
@@ -526,7 +526,7 @@ app.post('/delete/:table', function (req, res) {
     parameters = getDeleteParameters(table, data);
     
     //send query to add animal
-    db.pool.query(query, parameters, function (error, results, fields) {
+    db.db.run(query, parameters, function (error, results, fields) {
 
         //check for error
         if (error) {
@@ -565,7 +565,7 @@ function updateAdoptable(animalID, adoptable, restrictions) {
     console.log("Query: \n" + query + "\nParameters: \n" + parameters + "\n***\n\n")
 
     //send query to add animal
-    db.pool.query(query, parameters, function (error, results, fields) {
+    db.db.run(query, parameters, function (error, results, fields) {
         //check for error
         if (error) {
             console.log(error)
@@ -580,8 +580,8 @@ function updateAdoptable(animalID, adoptable, restrictions) {
 
 /***********************************************************/
 
-app.listen(port, function() {
-    var address = "http://flip1.engr.oregonstate.edu:" + port + "/"
-    console.log("Listening on port", port)
-    console.log("Accesible at: " + address)
-})
+app.listen(port, 'localhost', function() {
+    var address = "http://localhost:" + port + "/";
+    console.log("Listening on port", port);
+    console.log("Accessible at: " + address);
+});
